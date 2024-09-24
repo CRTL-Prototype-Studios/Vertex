@@ -12,6 +12,8 @@
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "@nuxt/ui": "^2.18.5",
-    "nuxt": "^3.12.4"
+    "@sidebase/nuxt-auth": "^0.9.3",
+    "nuxt": "^3.12.4",
+    "nuxt-tiptap-editor": "^2.0.0"
   }
 }
