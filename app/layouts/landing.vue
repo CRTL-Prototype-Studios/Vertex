@@ -1,5 +1,6 @@
-<script lang="ts">
-const links = [
+<script setup lang="ts">
+
+const headerLinks = [
     {
         label: 'About',
         to: '/#about',
@@ -16,7 +17,7 @@ const links = [
 <template>
     <div class="top-0 sticky w-full flex flex-row items-center justify-center h-fit gap-5">
         <nuxt-img src="/logo_nobg"/>
-        <UHorizontalNavigation :links="links"/>
+        <UHorizontalNavigation :links="headerLinks" />
     </div>
     <main>
         <slot/>

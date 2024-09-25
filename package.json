@@ -12,6 +12,7 @@
   "devDependencies": {
     "@iconify-json/lucide": "^1.2.5",
     "@nuxt/devtools": "latest",
+    "@nuxt/image": "^1.8.0",
     "@nuxt/ui": "^2.18.5",
     "@nuxtjs/mdc": "^0.9.0",
     "@sidebase/nuxt-auth": "^0.9.3",
