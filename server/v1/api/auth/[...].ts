@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
     const path = event.path.split('/')[0]
     console.log(path)
 
-    if (path === 'login') {
+    if (path == 'login') {
         const { email, password } = await readBody(event)
         const user = await prisma.user.findUnique({ where: { email } })
 
@@ -27,7 +27,7 @@ export default defineEventHandler(async (event) => {
         const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '30m' })
 
         return { token, user: { id: user.id, email: user.email, name: user.name } }
-    } else if (path === 'register') {
+    } else if (path == 'register') {
         const { email, password, name } = await readBody(event)
         const existingUser = await prisma.user.findUnique({ where: { email } })
 
