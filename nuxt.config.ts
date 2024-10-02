@@ -3,6 +3,9 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
+  colorMode: {
+    preference: 'dark'
+  },
   nitro: {
     experimental: {
       tasks: true,
@@ -14,9 +17,16 @@ export default defineNuxtConfig({
     "nuxt-tiptap-editor",
     "@sidebase/nuxt-auth",
     "@nuxtjs/mdc",
-    '@nuxt/image'
+    '@nuxt/image',
+    '@nuxt/fonts'
   ],
   compatibilityDate: "2024-09-24",
+  fonts: {
+    families: [
+      // only resolve this font with the `google` provider
+      { name: 'DM Sans', provider: 'google' },
+    ]
+  },
   tiptap: {
     prefix: 'Tiptap', //prefix for Tiptap imports, composables not included
   },
@@ -28,7 +38,7 @@ export default defineNuxtConfig({
     isEnabled: true,
     disableServerSideAuth: false,
     originEnvKey: 'AUTH_ORIGIN',
-    baseURL: '/v1/api/auth',
+    baseURL: '/api/v1/auth',
     sessionRefresh: {
       enablePeriodically: true,
       enableOnWindowFocus: true,

@@ -13,11 +13,15 @@ export default defineEventHandler(async (event) => {
     const path = event.path.split('/')[0]
     console.log(path)
 
-    if (path == 'login') {
+    if (path === 'login') {
         const { email, password } = await readBody(event)
-        const user = await prisma.user.findUnique({ where: { email } })
+        const user = await prisma.user.findUnique({
+            where: {
+                email
+            }
+        })
 
-        if (!user || !await bcrypt.compare(password, user.hashedPassword)) {
+        if (!user || !await bcrypt.compare(password, user.password)) {
             throw createError({
                 statusCode: 401,
                 statusMessage: 'Invalid credentials',
@@ -26,10 +30,31 @@ export default defineEventHandler(async (event) => {
 
         const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '30m' })
 
+        // Create a new session
+        const {error} = await prisma.session.create({
+            data: {
+                userId: user.id,
+                expires: new Date(Date.now() + 30 * 60 * 1000), // 30 minutes
+                sessionToken: token,
+                accessToken: token,
+            },
+        })
+
+        if(error){
+            throw createError({
+                statusCode: 500,
+                statusMessage: 'Unable to create login session. Something is wrong.',
+            })
+        }
+
         return { token, user: { id: user.id, email: user.email, name: user.name } }
-    } else if (path == 'register') {
+    } else if (path === 'register') {
         const { email, password, name } = await readBody(event)
-        const existingUser = await prisma.user.findUnique({ where: { email } })
+        const existingUser = await prisma.user.findUnique({
+            where: {
+                email
+            }
+        })
 
         if (existingUser) {
             throw createError({
@@ -40,10 +65,24 @@ export default defineEventHandler(async (event) => {
 
         const hashedPassword = await bcrypt.hash(password, 10)
         const user = await prisma.user.create({
-            data: { email, hashedPassword, name },
+            data: {
+                email,
+                password: hashedPassword,
+                name
+            },
         })
 
         const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '30m' })
+
+        // Create a new session
+        await prisma.session.create({
+            data: {
+                userId: user.id,
+                expires: new Date(Date.now() + 30 * 60 * 1000), // 30 minutes
+                sessionToken: token,
+                accessToken: token,
+            },
+        })
 
         return { token, user: { id: user.id, email: user.email, name: user.name } }
     } else if (path === 'logout') {

@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+
+.animate-typing {
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 0.15em solid #fff;
+    animation:
+            typing 3.5s steps(40, end);
+}
+
+/* Adjust the animation duration based on text length */
+.animate-typing[data-length="short"] { animation-duration: 2s; }
+.animate-typing[data-length="medium"] { animation-duration: 3.5s; }
+.animate-typing[data-length="long"] { animation-duration: 5s; }
+
+.text-glow {
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #fff;
+}
+
+/* Or for colored glow */
+.text-glow-purple {
+    text-shadow: 0 0 5px #8a2be2, 0 0 10px #8a2be2, 0 0 15px #8a2be2, 0 0 20px #8a2be2;
+}
+
+.fade-in-from-top {
+    animation: fadeInFromTop 1s ease-in-out;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fadeInFromTop {
+    from {
+        opacity: 0;
+        transform: translateY(-20px); /* Move slightly above */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-from-bottom {
+    animation: fadeInFromBottom 1s ease-in-out;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fadeInFromBottom {
+    from {
+        opacity: 0;
+        transform: translateY(20px); /* Move slightly above */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
